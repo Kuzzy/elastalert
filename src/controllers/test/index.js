@@ -57,7 +57,7 @@ export default class TestController {
 
 
           try {
-            let testProcess = spawn('python', processOptions, {
+            let testProcess = spawn('python3', processOptions, {
               cwd: self._elastalertPath
             });
 
@@ -73,12 +73,12 @@ export default class TestController {
                   });
               });
             }
-              
+
             testProcess.stdout.on('data', function (data) {
               if (socket) {
-                socket.send(JSON.stringify({ 
+                socket.send(JSON.stringify({
                   event: 'result',
-                  data: data.toString() 
+                  data: data.toString()
                 }));
               }
               stdoutLines.push(data.toString());
@@ -86,9 +86,9 @@ export default class TestController {
 
             testProcess.stderr.on('data', function (data) {
               if (socket) {
-                socket.send(JSON.stringify({ 
+                socket.send(JSON.stringify({
                   event: 'progress',
-                  data: data.toString() 
+                  data: data.toString()
                 }));
               }
               stderrLines.push(data.toString());
@@ -105,7 +105,7 @@ export default class TestController {
               } else {
                 if (!socket) {
                   reject(stderrLines.join('\n'));
-                  logger.error(stderrLines.join('\n'));  
+                  logger.error(stderrLines.join('\n'));
                 }
               }
 
